@@ -24,6 +24,21 @@
             </div>
         </div>
 
+        <!-- Card Jumlah Products -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card text-white bg-warning h-100 shadow-sm border-0">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title">Total Products</h5>
+                        <h2 class="fw-bold mb-0">{{ $products }}</h2>
+                    </div>
+                    <div>
+                        <i class="bi bi-bag-check-fill" style="font-size: 3rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Card Jumlah Partners -->
         <div class="col-md-6 col-lg-4">
             <div class="card text-white bg-success h-100 shadow-sm border-0">

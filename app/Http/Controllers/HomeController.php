@@ -25,24 +25,32 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-     public function index()
-{
-    $categories = Category::all();
+    public function index()
+    {
+        $categories = Category::all();
 
-    $slidesData = $categories->map(function ($category) {
-        return [
-            'title' => $category->name,             
-            'img' => $category->image ? asset('storage/' . $category->image) : null,  
-            'desc' => $category->description,     
-        ];        
-    });
+        $slidesData = $categories->map(function ($category) {
+            return [
+                'title' => $category->name,
+                'img' => $category->image ? asset('storage/' . $category->image) : null,
+                'desc' => $category->description,
+            ];
+        });
 
-    $projects = Project::all();
-    // dd($projects->all());
-    $partners = Partner::all();
+        $projects = Project::where('is_product', false)->get();
+        $partners = Partner::all();
 
-    return view('home', compact('projects', 'partners', 'categories', 'slidesData'));
-}
+        return view('home', compact('projects', 'partners', 'categories', 'slidesData'));
+    }
+
+    public function product()
+    {
+        $projects = Project::with('category')->where('is_product', true)->latest()->get();
+        $categories = Category::orderBy('name')->get();
+        $featuredProject = $projects->first();
+
+        return view('product', compact('projects', 'categories', 'featuredProject'));
+    }
 
      
 

@@ -84,6 +84,9 @@
         <a href="{{ route('projects.index') }}" class="{{ request()->is('projects*') ? 'active' : '' }}">
           <i class="bx bx-briefcase-alt-2"></i> Projects
         </a>
+        <a href="{{ route('products.index') }}" class="{{ request()->is('products*') ? 'active' : '' }}">
+          <i class="bx bx-package"></i> Products
+        </a>
         <a href="{{ route('partners.index') }}" class="{{ request()->is('partners*') ? 'active' : '' }}">
           <i class="bx bx-user-check"></i> Partners
         </a>
@@ -128,6 +131,9 @@
       </a>
       <a href="{{ route('projects.index') }}" class="{{ request()->is('projects*') ? 'active' : '' }}">
         <i class="bx bx-briefcase-alt-2"></i> Projects
+      </a>
+      <a href="{{ route('products.index') }}" class="{{ request()->is('products*') ? 'active' : '' }}">
+        <i class="bx bx-package"></i> Products
       </a>
       <a href="{{ route('partners.index') }}" class="{{ request()->is('partners*') ? 'active' : '' }}">
         <i class="bx bx-user-check"></i> Partners

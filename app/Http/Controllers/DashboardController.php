@@ -14,10 +14,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $projects = Project::all()->count();
+        $projects = Project::where('is_product', false)->count();
+        $products = Project::where('is_product', true)->count();
         $categories = Category::all()->count();
         $partners = Partner::all()->count();
-        return view('cms.dashboard.index', compact('projects','partners', 'categories'));
+        return view('cms.dashboard.index', compact('projects', 'products', 'partners', 'categories'));
     }
 
     /**

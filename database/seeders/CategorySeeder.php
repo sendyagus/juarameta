@@ -14,35 +14,41 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-        [
-            'name' => 'Teknokrat World',
-            'image' => 'category/teknokratworld.jpg',
-            'description' => 'Platform digital untuk pengalaman dunia virtual Teknokrat.',
-        ],
-        [
-            'name' => 'Metaschool',
-            'image' => 'category/metaschool.jpg',
-            'description' => 'Simulasi sekolah di dunia metaverse.',
-        ],
-        [
-            'name' => 'Educational Game',
-            'image' => 'category/metaeducation.jpg',
-            'description' => 'Permainan edukatif berbasis 3D dan interaktif.',
-        ],
-        [
-            'name' => 'V-Commerce',
-            'image' => 'category/vcommerce.jpg',
-            'description' => 'Platform belanja virtual dalam lingkungan 3D.',
-        ],
-        [
-            'name' => 'Tourism',
-            'image' => 'category/tourism.jpg',
-            'description' => 'Eksplorasi destinasi wisata secara virtual.',
-        ],
-    ];
+            [
+                'name' => 'teknokrat word',
+                'image' => 'category/teknokratworld.jpg',
+                'description' => 'Platform digital untuk pengalaman dunia virtual Teknokrat.',
+            ],
+            [
+                'name' => 'metaschool',
+                'image' => 'category/metaschool.jpg',
+                'description' => 'Simulasi sekolah di dunia metaverse.',
+            ],
+            [
+                'name' => 'education game',
+                'image' => 'category/metaeducation.jpg',
+                'description' => 'Permainan edukatif berbasis 3D dan interaktif.',
+            ],
+            [
+                'name' => 'v-commerce',
+                'image' => 'category/vcommerce.jpg',
+                'description' => 'Platform belanja virtual dalam lingkungan 3D.',
+            ],
+            [
+                'name' => 'tourism',
+                'image' => 'category/tourism.jpg',
+                'description' => 'Eksplorasi destinasi wisata secara virtual.',
+            ],
+        ];
 
-    foreach ($categories as $category) {
-        Category::create($category);
-    }
+        foreach ($categories as $category) {
+            Category::firstOrCreate(
+                ['name' => $category['name']],
+                [
+                    'image' => $category['image'],
+                    'description' => $category['description'],
+                ]
+            );
+        }
     }
 }

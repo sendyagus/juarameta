@@ -5,11 +5,14 @@
         <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
           data-aos="fade-up" data-aos-delay="200">
           <h1 class="text-bold text-danger">Future Digital Leaders</h1>
-          <h2>Metaverse Universitas Teknokrat Indonesia</h2>
-          <p>
+          <h2>JuaraMeta  Universitas Teknokrat Indonesia</h2>
+          <!-- <p>
             Masuki dunia virtual kampus dan temukan ruangan futuristik untuk
             mewujudkan inovasi, kolaborasi, dan kegiatan yang berdampak nyata
             di era metaverse!
+          </p> -->
+          <p>Pusat unggulan (center of excellence) yang berfokus pada pengembangan dan penelitian di bidang meteaverse untuk berbagai aspek khususnya oendidikan, bisnis, seni, dan hiburan.
+            <b>JUARAMETA</b> akan menjadi "future digital leaders" di era digital yang terus berkembang
           </p>
           <div class="d-flex justify-content-center justify-content-lg-start">
             <!-- <a href="form.php" class="btn-get-started scrollto ">Form Peminjaman</a> -->

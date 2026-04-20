@@ -10,7 +10,16 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'image', 'model_path', 'spatial_link', 'category_id'
+        'title',
+        'description',
+        'price',
+        'author',
+        'is_hot',
+        'is_product',
+        'image',
+        'model_path',
+        'spatial_link',
+        'category_id',
     ];
 
     public function category()

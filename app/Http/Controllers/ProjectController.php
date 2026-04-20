@@ -11,7 +11,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where('is_product', false)->latest()->get();
         return view('cms.projects.index', compact('projects'));
     }
 
@@ -37,6 +37,7 @@ class ProjectController extends Controller
         'title' => $request->title,
         'description' => $request->description,
         'category_id' => $request->category_id, // simpan category_id bukan category
+        'is_product' => false,
         'image' => $imagePath,
         'model_path' => $modelPath,
         'spatial_link' => $request->spatial_link,
@@ -80,6 +81,7 @@ class ProjectController extends Controller
     $project->title = $request->title;
     $project->description = $request->description;
     $project->category_id = $request->category_id;  // update sini juga
+    $project->is_product = false;
     $project->spatial_link = $request->spatial_link;
     
     $project->save();
