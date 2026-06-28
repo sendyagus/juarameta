@@ -16,7 +16,7 @@
         <!-- Konten teks -->
         <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
           <div class="p-3">
-            <h4 class="fw-semibold mb-3">Apa itu <span class="text-danger">JuaraMeta?</span></h4>
+            <h4 class="fw-semibold mb-3">Apa itu <span style="color: #10b1e9;">JuaraMeta?</span></h4>
             <p class="text-justify">
               <strong>JuaraMeta</strong> adalah platform interaktif berbasis <em>metaverse</em> yang menghadirkan
               eksplorasi kampus masa depan secara virtual dan imersif. Kami menggabungkan teknologi 3D dan realitas

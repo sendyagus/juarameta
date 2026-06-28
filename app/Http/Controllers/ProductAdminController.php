@@ -43,6 +43,17 @@ class ProductAdminController extends Controller
                     }
                 },
             ],
+            'model_path_2' => [
+                'nullable',
+                'file',
+                'max:40960',
+                function ($attribute, $value, $fail) {
+                    $ext = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($ext, ['glb', 'fbx', 'zip', 'rar', 'blend', 'obj', 'max'])) {
+                        $fail('File aset 2 harus berformat .glb, .fbx, .blend, .obj, .max, .zip, atau .rar.');
+                    }
+                },
+            ],
             'spatial_link' => 'nullable|url',
         ]);
 
@@ -56,6 +67,14 @@ class ProductAdminController extends Controller
             $modelPath = null;
         }
 
+        if ($request->hasFile('model_path_2')) {
+            $modelFile2 = $request->file('model_path_2');
+            $ext2       = strtolower($modelFile2->getClientOriginalExtension());
+            $modelPath2 = $modelFile2->storeAs('models', uniqid('model2_', true) . '.' . $ext2, 'public');
+        } else {
+            $modelPath2 = null;
+        }
+
         Project::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -66,6 +85,7 @@ class ProductAdminController extends Controller
             'is_product' => true,
             'image' => $imagePath,
             'model_path' => $modelPath,
+            'model_path_2' => $modelPath2,
             'spatial_link' => $request->spatial_link,
         ]);
 
@@ -105,6 +125,17 @@ class ProductAdminController extends Controller
                     }
                 },
             ],
+            'model_path_2' => [
+                'nullable',
+                'file',
+                'max:40960',
+                function ($attribute, $value, $fail) {
+                    $ext = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($ext, ['glb', 'fbx', 'zip', 'rar', 'blend', 'obj', 'max'])) {
+                        $fail('File aset 2 harus berformat .glb, .fbx, .blend, .obj, .max, .zip, atau .rar.');
+                    }
+                },
+            ],
             'spatial_link' => 'nullable|url',
         ]);
 
@@ -122,6 +153,15 @@ class ProductAdminController extends Controller
             $modelFile          = $request->file('model_path');
             $ext                = strtolower($modelFile->getClientOriginalExtension());
             $product->model_path = $modelFile->storeAs('models', uniqid('model_', true) . '.' . $ext, 'public');
+        }
+
+        if ($request->hasFile('model_path_2')) {
+            if ($product->model_path_2) {
+                Storage::disk('public')->delete($product->model_path_2);
+            }
+            $modelFile2          = $request->file('model_path_2');
+            $ext2                = strtolower($modelFile2->getClientOriginalExtension());
+            $product->model_path_2 = $modelFile2->storeAs('models', uniqid('model2_', true) . '.' . $ext2, 'public');
         }
 
         $product->title = $request->title;
@@ -148,6 +188,10 @@ class ProductAdminController extends Controller
 
         if ($product->model_path) {
             Storage::disk('public')->delete($product->model_path);
+        }
+
+        if ($product->model_path_2) {
+            Storage::disk('public')->delete($product->model_path_2);
         }
 
         $product->delete();

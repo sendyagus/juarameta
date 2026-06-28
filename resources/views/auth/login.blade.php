@@ -36,7 +36,7 @@
 
     .card-header {
       background: transparent;
-      color: #d80032;
+      color: #10b1e9;
       text-align: center;
       font-size: 1.5rem;
       font-weight: bold;
@@ -55,12 +55,12 @@
     }
 
     .form-control:focus {
-      border-color: #d80032;
-      box-shadow: 0 0 8px rgba(216, 0, 50, 0.4);
+      border-color: #10b1e9;
+      box-shadow: 0 0 8px rgba(0, 112, 216, 0.4);
     }
 
     .btn-primary {
-      background-color: #d80032;
+      background-color: #10b1e9;
       border: none;
       color: white;
       font-weight: bold;

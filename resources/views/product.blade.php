@@ -29,72 +29,63 @@
             text-decoration: none;
             margin-left: 22px;
         }
-        .product-nav a.active { color: #e03333; font-weight: 600; }
+        .product-nav a.active { color: #2b69f0; font-weight: 600; }
 
         /* ── LAYOUT ── */
         .product-wrapper { padding: 44px 0 70px; }
-        .section-title {
-            color: #e03333;
-            font-size: 44px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 34px;
-        }
-        .section-title span { border-bottom: 4px solid #e03333; padding-bottom: 5px; }
-
-        /* ── INTRO BOX ── */
-        .intro-box {
+        /* ── HERO ── */
+        .product-hero {
             border-radius: 14px;
             background: linear-gradient(130deg, #d7ebfc 0%, #c7e3fb 55%, #b9dcfb 100%);
-            padding: 34px 30px;
-            min-height: 235px;
+            padding: 48px 40px;
+            margin-bottom: 8px;
+            overflow: hidden;
         }
-        .intro-box h2 { font-size: 42px; font-weight: 700; margin-bottom: 14px; }
-        .intro-box h2 .brand { color: #10a2e9; }
-        .intro-box p { color: #4a596f; max-width: 86%; margin-bottom: 24px; }
+        .product-hero h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            color: #1a3a5c;
+        }
+        .product-hero h2 .brand { color: #10a2e9; }
+        .product-hero p {
+            color: #4a596f;
+            max-width: 95%;
+            margin-bottom: 28px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
         .btn-collection {
             background: #0ba0df;
             border: 0;
             border-radius: 8px;
             color: #fff;
             font-weight: 600;
-            padding: 10px 22px;
+            padding: 12px 26px;
             text-decoration: none;
             display: inline-block;
+            transition: background .2s, transform .2s;
         }
-
-        /* ── HIGHLIGHT CARD ── */
-        .highlight-card {
-            background: #fff;
-            border: 1px solid #e4e8ee;
-            border-radius: 12px;
-            padding: 14px;
-            min-height: 235px;
+        .btn-collection:hover {
+            background: #0990c9;
+            color: #fff;
+            transform: translateY(-1px);
         }
-        .highlight-thumb {
-            height: 110px;
-            border-radius: 8px;
-            background: #ebedf1;
+        .hero-model-wrap {
+            position: relative;
+            height: 340px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #b1b8c4;
-            font-size: 14px;
-            overflow: hidden;
         }
-        .tag-hot {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 5px;
-            background: #ff4f55;
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .hero-model-viewer {
+            width: 100%;
+            height: 340px;
+            --progress-bar-color: #10a2e9;
+            background: transparent;
+            filter: drop-shadow(0 18px 28px rgba(26, 58, 92, 0.18));
         }
-        .highlight-title { font-size: 24px; margin: 14px 0 22px; font-weight: 700; }
-        .highlight-meta { color: #8a95a8; font-size: 13px; }
-        .highlight-price { color: #0dbf5f; font-size: 30px; font-weight: 700; text-align: right; }
 
         /* ── TOOLBAR ── */
         .toolbar { margin: 28px 0 24px; display: flex; gap: 14px; }
@@ -263,6 +254,12 @@
         .ar-btn {
             --ar-button-background: #e03333;
         }
+
+        @media (max-width: 991px) {
+            .product-hero { padding: 32px 24px; }
+            .hero-model-wrap,
+            .hero-model-viewer { height: 280px; }
+        }
     </style>
 </head>
 
@@ -283,46 +280,31 @@
 
     <main class="product-wrapper">
         <div class="container">
-            <h1 class="section-title"><span>Our Product</span></h1>
-
-            {{-- === INTRO & FEATURED === --}}
-            <div class="row g-3">
-                <div class="col-lg-8">
-                    <div class="intro-box">
+            {{-- === HERO: teks kiri, model 3D kanan === --}}
+            <section class="product-hero">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-6">
                         <h2>Selamat Datang di <span class="brand">JuaraMeta Assets</span></h2>
                         <p>Temukan berbagai koleksi 3D Model eksklusif berkualitas tinggi. Dirancang khusus untuk
                             mempercepat proses pengembangan dunia metaverse dan simulasi Anda.</p>
                         <a href="#product-grid" class="btn-collection">Jelajahi Koleksi</a>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="highlight-card">
-                        @if ($featuredProject)
-                            @if ($featuredProject->is_hot)
-                                <span class="tag-hot">HOT</span>
-                            @endif
-                            <div class="highlight-thumb">
-                                @if ($featuredProject->image)
-                                    <img src="{{ asset('storage/' . $featuredProject->image) }}"
-                                        alt="{{ $featuredProject->title }}"
-                                        style="max-width:100%;max-height:100%;object-fit:cover;">
-                                @else
-                                    Thumbnail 3D Model
-                                @endif
-                            </div>
-                            <div class="highlight-title">{{ $featuredProject->title }}</div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="highlight-meta">{{ optional($featuredProject->category)->name ?: 'Asset Pack' }}</div>
-                                <div class="highlight-price">Rp {{ number_format($featuredProject->price ?? 0, 0, ',', '.') }}</div>
-                            </div>
-                        @else
-                            <div class="h-100 d-flex align-items-center justify-content-center text-muted">
-                                Belum ada produk unggulan.
-                            </div>
-                        @endif
+                    <div class="col-lg-6">
+                        <div class="hero-model-wrap">
+                            <model-viewer
+                                class="hero-model-viewer"
+                                src="{{ asset('assets/3d/teknokrat.glb') }}"
+                                alt="Universitas Teknokrat Indonesia"
+                                camera-controls
+                                auto-rotate
+                                shadow-intensity="1.2"
+                                exposure="1"
+                                interaction-prompt="none"
+                            ></model-viewer>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {{-- === TOOLBAR === --}}
             <div class="toolbar">
@@ -355,6 +337,8 @@
                                 image: {{ json_encode($project->image ? asset('storage/'.$project->image) : null) }},
                                 model_path: {{ json_encode($project->model_path ? asset('storage/'.$project->model_path) : null) }},
                                 model_ext: {{ json_encode($project->model_path ? strtolower(pathinfo($project->model_path, PATHINFO_EXTENSION)) : null) }},
+                                model_path_2: {{ json_encode($project->model_path_2 ? asset('storage/'.$project->model_path_2) : null) }},
+                                model_ext_2: {{ json_encode($project->model_path_2 ? strtolower(pathinfo($project->model_path_2, PATHINFO_EXTENSION)) : null) }},
                                 spatial_link: {{ json_encode($project->spatial_link ?? null) }},
                                 is_hot: {{ $project->is_hot ? 'true' : 'false' }}
                             })">
@@ -432,6 +416,13 @@
                                     <div class="detail-price" id="modalPrice">-</div>
                                 </div>
 
+                                <div class="mt-4 pt-3 border-top" id="downloadSection">
+                                    <label class="form-label fw-bold text-dark mb-2"><i class="bi bi-download"></i> Pilihan Unduh Aset</label>
+                                    <div class="d-grid gap-2" id="downloadButtonsContainer">
+                                        <!-- Tombol download akan di-generate via JavaScript -->
+                                    </div>
+                                </div>
+
                                 <div id="modalSpatialWrap" class="mt-3 d-none">
                                     <a id="modalSpatialLink" href="#" target="_blank" class="spatial-btn">
                                         🌐 Buka di Spatial.io
@@ -495,10 +486,61 @@
 
             // Format badge
             const fmtEl = document.getElementById('modalFormat');
-            if (p.model_ext) {
-                fmtEl.innerHTML = `<span style="font-weight:700;font-size:13px;color:#2b69f0;">.${p.model_ext.toUpperCase()}</span>`;
+            let formats = [];
+            if (p.model_ext) formats.push(`.${p.model_ext.toUpperCase()}`);
+            if (p.model_ext_2) formats.push(`.${p.model_ext_2.toUpperCase()}`);
+            
+            if (formats.length > 0) {
+                fmtEl.innerHTML = `<span style="font-weight:700;font-size:13px;color:#2b69f0;">${formats.join(' / ')}</span>`;
             } else {
-                fmtEl.textContent = 'Tidak ada model 3D';
+                fmtEl.textContent = 'Tidak ada file aset';
+            }
+
+            // Generate Download Buttons
+            const downloadSection = document.getElementById('downloadSection');
+            const downloadButtonsContainer = document.getElementById('downloadButtonsContainer');
+            downloadButtonsContainer.innerHTML = '';
+            
+            let hasDownloads = false;
+            
+            if (p.model_path) {
+                hasDownloads = true;
+                const ext = p.model_ext ? p.model_ext.toUpperCase() : 'Aset 1';
+                const btn1 = document.createElement('a');
+                btn1.href = p.model_path;
+                btn1.setAttribute('download', '');
+                btn1.className = 'btn btn-primary w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white';
+                btn1.innerHTML = `
+                    <div>
+                        <i class="bi bi-file-earmark-arrow-down-fill me-2 fs-5"></i>
+                        <strong>Aset Pilihan 1</strong>
+                    </div>
+                    <span class="badge bg-white text-primary">.${ext}</span>
+                `;
+                downloadButtonsContainer.appendChild(btn1);
+            }
+            
+            if (p.model_path_2) {
+                hasDownloads = true;
+                const ext = p.model_ext_2 ? p.model_ext_2.toUpperCase() : 'Aset 2';
+                const btn2 = document.createElement('a');
+                btn2.href = p.model_path_2;
+                btn2.setAttribute('download', '');
+                btn2.className = 'btn btn-success w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white';
+                btn2.innerHTML = `
+                    <div>
+                        <i class="bi bi-file-earmark-arrow-down-fill me-2 fs-5"></i>
+                        <strong>Aset Pilihan 2</strong>
+                    </div>
+                    <span class="badge bg-white text-success">.${ext}</span>
+                `;
+                downloadButtonsContainer.appendChild(btn2);
+            }
+            
+            if (hasDownloads) {
+                downloadSection.classList.remove('d-none');
+            } else {
+                downloadSection.classList.add('d-none');
             }
 
             // Spatial link

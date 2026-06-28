@@ -12,7 +12,7 @@
 
         <!-- Filter Tabs -->
         <ul class="nav nav-pills justify-content-center mb-4" id="gallery-filters">
-            <li class="nav-item"><button class="nav-link active text-white bg-danger" data-filter="*">All</button></li>
+            <li class="nav-item"><button class="nav-link active" data-filter="*">All</button></li>
             @foreach ($categories as $category)
                 <li class="nav-item">
                     <button class="nav-link" data-filter=".{{ str_replace(' ', '', $category->name) }}">
@@ -43,7 +43,7 @@
                                     data-link="{{ $project->spatial_link }}">
                                     <i class="bx bx-plus me-1"></i> 3D Preview
                                 </button>
-                                <a href="{{ $project->spatial_link }}" target="_blank" class="btn btn-danger btn-sm">
+                                <a href="{{ $project->spatial_link }}" target="_blank" class="btn btn btn-sm" style="background-color: #10b1e9; color: white;">
                                     View in Spatial
                                 </a>
                             </div>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="text-center mt-4">
-            <button id="loadMoreBtn" class="btn btn-outline-danger">Tampilkan Lebih Banyak</button>
+            <button id="loadMoreBtn" class="btn btn" style="outline:1px solid #10b1e9; color: #10b1e9;">Tampilkan Lebih Banyak</button>
         </div>
     </div>
 </section>

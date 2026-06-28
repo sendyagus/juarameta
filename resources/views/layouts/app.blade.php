@@ -43,14 +43,14 @@
             padding: 8px 20px;
             transition: all 0.3s ease;
             font-weight: 500;
-            color: #dc3545;
+            color: #10b1e9;
             background-color: transparent;
         }
 
         #gallery-filters .nav-link.active,
         #gallery-filters .nav-link:hover {
             color: #fff;
-            background-color: #dc3545;
+            background-color: #10b1e9;
         }
 
         .gallery-item {
@@ -97,8 +97,8 @@
         }
 
         .gallery-item .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
+            background-color: #10b1e9;
+            border-color: #10b1e9;
         }
 
         .gallery-item .btn-danger:hover {
@@ -109,13 +109,13 @@
         /* Card Title */
         .gallery-item .card-title {
             font-weight: 700;
-            color: #dc3545;
+            color: #10b1e9;
             margin-bottom: 5px;
         }
 
         .gallery-item .card-text {
             font-size: 14px;
-            color: #6c757d;
+            color: #10b1e9;
         }
 
         .gallery-img {
@@ -179,7 +179,7 @@
         }
 
         #closePopup:hover {
-            color: #dc3545;
+            color: #10b1e9;
         }
 
 
@@ -610,8 +610,8 @@
             position: absolute; 
             top: 15px; 
             right: 15px; 
-            background: #dc3545; 
-            border-color: #dc3545; 
+            background: #10b1e9; 
+            border-color: #10b1e9; 
             border-radius: 10px;
             padding: 6px 12px;
             font-size: 14px; 
@@ -635,7 +635,7 @@
             <!-- Link Button -->
             <div style="text-align: right; margin-top: 25px;">
                 <a id="popup-link" href="#" target="_blank"
-                    style="background: #e60023; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; transition: background 0.3s;">
+                    style=" color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; transition: background 0.3s;">
                     🔗 View in Spatial
                 </a>
             </div>
@@ -812,9 +812,8 @@
             filtersElem.addEventListener('click', function(event) {
                 if (!event.target.matches('button')) return;
 
-                filtersElem.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active',
-                    'bg-danger', 'text-white'));
-                event.target.classList.add('active', 'bg-danger', 'text-white');
+                filtersElem.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
 
                 activeFilter = event.target.getAttribute('data-filter');
                 visibleCount = 6;

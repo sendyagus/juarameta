@@ -57,17 +57,33 @@
         </div>
 
         <div class="mb-3">
-            <label for="model_path" class="form-label fw-semibold">Upload Model 3D</label>
+            <label for="model_path" class="form-label fw-semibold">Upload Model 3D (Aset 1 - Preview)</label>
             <input class="form-control" type="file" id="model_path" name="model_path" accept=".glb,.fbx">
             <div class="form-text">
                 <i class="bx bx-info-circle"></i>
-                Format yang diterima: <strong>.glb</strong> dan <strong>.fbx</strong> &mdash; Ukuran maksimal: <strong>40 MB</strong>
+                Format yang diterima: <strong>.glb</strong> dan <strong>.fbx</strong> &mdash; Ukuran maksimal: <strong>40 MB</strong> (Akan digunakan untuk render preview 3D)
             </div>
 
             @if (!empty($product->model_path))
                 <div class="mt-2 d-flex align-items-center gap-2">
                     <i class="bx bx-cube text-primary fs-5"></i>
                     <small class="text-muted">File ter-upload: <strong>{{ basename($product->model_path) }}</strong></small>
+                </div>
+            @endif
+        </div>
+
+        <div class="mb-3">
+            <label for="model_path_2" class="form-label fw-semibold">Upload Aset Tambahan (Aset 2 - Pilihan Download Lainnya)</label>
+            <input class="form-control" type="file" id="model_path_2" name="model_path_2" accept=".glb,.fbx,.blend,.obj,.max,.zip,.rar">
+            <div class="form-text">
+                <i class="bx bx-info-circle"></i>
+                Format yang diterima: <strong>.glb, .fbx, .blend, .obj, .max, .zip, .rar</strong> &mdash; Ukuran maksimal: <strong>40 MB</strong>
+            </div>
+
+            @if (!empty($product->model_path_2))
+                <div class="mt-2 d-flex align-items-center gap-2">
+                    <i class="bx bx-file text-success fs-5"></i>
+                    <small class="text-muted">File ter-upload: <strong>{{ basename($product->model_path_2) }}</strong></small>
                 </div>
             @endif
         </div>

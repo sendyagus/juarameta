@@ -18,6 +18,7 @@ class Project extends Model
         'is_product',
         'image',
         'model_path',
+        'model_path_2',
         'spatial_link',
         'category_id',
     ];

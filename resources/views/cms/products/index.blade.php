@@ -43,9 +43,15 @@
 
                         <div class="mb-2">
                             @if ($product->model_path)
-                                <a href="{{ asset($product->model_path) }}" target="_blank"
+                                <a href="{{ asset('storage/' . $product->model_path) }}" target="_blank"
                                     class="btn btn-sm btn-outline-primary me-1">
-                                    <i class="bx bx-cube"></i> 3D Model
+                                    <i class="bx bx-cube"></i> Aset 1
+                                </a>
+                            @endif
+                            @if ($product->model_path_2)
+                                <a href="{{ asset('storage/' . $product->model_path_2) }}" target="_blank"
+                                    class="btn btn-sm btn-outline-success me-1">
+                                    <i class="bx bx-file"></i> Aset 2
                                 </a>
                             @endif
                             @if ($product->spatial_link)
