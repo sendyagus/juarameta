@@ -19,7 +19,7 @@
         /* ── HEADER ── */
         .product-header {
             background: #fff;
-            border-bottom: 1px solid #e9edf3;
+            border-bottom: 1px solid #e9edf3:
             padding: 12px 0;
         }
         .product-logo { max-height: 54px; }
