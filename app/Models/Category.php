@@ -10,7 +10,17 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image', 'description'];
+    protected $fillable = ['name', 'image', 'description', 'type'];
+
+    public function scopeLanding($query)
+    {
+        return $query->where('type', 'landing');
+    }
+
+    public function scopeProduct($query)
+    {
+        return $query->where('type', 'product');
+    }
 
     public function projects()
     {

@@ -18,7 +18,7 @@ class ProductAdminController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::product()->orderBy('name')->get();
         return view('cms.products.create', compact('categories'));
     }
 
@@ -27,7 +27,7 @@ class ProductAdminController extends Controller
         $request->validate([
             'title'        => 'required|string|max:255',
             'description'  => 'nullable|string',
-            'category_id'  => 'required|exists:categories,id',
+            'category_id'  => ['required', Rule::exists('categories', 'id')->where('type', 'product')],
             'price'        => 'required|integer|min:0',
             'author'       => 'nullable|string|max:255',
             'is_hot'       => 'nullable|boolean',
@@ -97,7 +97,7 @@ class ProductAdminController extends Controller
         if (!$product->is_product) {
             abort(404);
         }
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::product()->orderBy('name')->get();
         return view('cms.products.edit', compact('product', 'categories'));
     }
 
@@ -109,7 +109,7 @@ class ProductAdminController extends Controller
         $request->validate([
             'title'        => 'required|string|max:255',
             'description'  => 'nullable|string',
-            'category_id'  => 'required|exists:categories,id',
+            'category_id'  => ['required', Rule::exists('categories', 'id')->where('type', 'product')],
             'price'        => 'required|integer|min:0',
             'author'       => 'nullable|string|max:255',
             'is_hot'       => 'nullable|boolean',

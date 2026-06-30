@@ -280,6 +280,20 @@
 
     <main class="product-wrapper">
         <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session('payment_error'))
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    {{ session('payment_error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             {{-- === HERO: teks kiri, model 3D kanan === --}}
             <section class="product-hero">
                 <div class="row align-items-center g-4">
@@ -339,6 +353,12 @@
                                 model_ext: {{ json_encode($project->model_path ? strtolower(pathinfo($project->model_path, PATHINFO_EXTENSION)) : null) }},
                                 model_path_2: {{ json_encode($project->model_path_2 ? asset('storage/'.$project->model_path_2) : null) }},
                                 model_ext_2: {{ json_encode($project->model_path_2 ? strtolower(pathinfo($project->model_path_2, PATHINFO_EXTENSION)) : null) }},
+                                purchase_primary_url: {{ json_encode(route('purchases.start', ['product' => $project, 'assetKey' => 'primary'])) }},
+                                purchase_secondary_url: {{ json_encode(route('purchases.start', ['product' => $project, 'assetKey' => 'secondary'])) }},
+                                download_primary_url: {{ json_encode(route('products.download', ['product' => $project, 'assetKey' => 'primary'])) }},
+                                download_secondary_url: {{ json_encode(route('products.download', ['product' => $project, 'assetKey' => 'secondary'])) }},
+                                is_purchased: {{ in_array($project->id, $purchasedProjectIds, true) ? 'true' : 'false' }},
+                                is_logged_in: {{ $isLoggedIn ? 'true' : 'false' }},
                                 spatial_link: {{ json_encode($project->spatial_link ?? null) }},
                                 is_hot: {{ $project->is_hot ? 'true' : 'false' }}
                             })">
@@ -418,6 +438,7 @@
 
                                 <div class="mt-4 pt-3 border-top" id="downloadSection">
                                     <label class="form-label fw-bold text-dark mb-2"><i class="bi bi-download"></i> Pilihan Unduh Aset</label>
+                                    <p class="text-muted small mb-3" id="downloadSectionHint">Login diperlukan sebelum download. Setelah login, pembayaran Midtrans akan ditampilkan untuk aset yang belum dibeli.</p>
                                     <div class="d-grid gap-2" id="downloadButtonsContainer">
                                         <!-- Tombol download akan di-generate via JavaScript -->
                                     </div>
@@ -498,47 +519,64 @@
 
             // Generate Download Buttons
             const downloadSection = document.getElementById('downloadSection');
+            const downloadSectionHint = document.getElementById('downloadSectionHint');
             const downloadButtonsContainer = document.getElementById('downloadButtonsContainer');
             downloadButtonsContainer.innerHTML = '';
-            
+
             let hasDownloads = false;
-            
-            if (p.model_path) {
+
+            const buttonConfigs = [
+                {
+                    available: Boolean(p.model_path),
+                    ext: p.model_ext ? p.model_ext.toUpperCase() : 'Aset 1',
+                    title: 'Aset Pilihan 1',
+                    buttonClass: 'btn btn-primary w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white',
+                    badgeClass: 'badge bg-white text-primary',
+                    url: p.is_purchased ? p.download_primary_url : p.purchase_primary_url,
+                },
+                {
+                    available: Boolean(p.model_path_2),
+                    ext: p.model_ext_2 ? p.model_ext_2.toUpperCase() : 'Aset 2',
+                    title: 'Aset Pilihan 2',
+                    buttonClass: 'btn btn-success w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white',
+                    badgeClass: 'badge bg-white text-success',
+                    url: p.is_purchased ? p.download_secondary_url : p.purchase_secondary_url,
+                }
+            ];
+
+            buttonConfigs.forEach(config => {
+                if (!config.available) {
+                    return;
+                }
+
                 hasDownloads = true;
-                const ext = p.model_ext ? p.model_ext.toUpperCase() : 'Aset 1';
-                const btn1 = document.createElement('a');
-                btn1.href = p.model_path;
-                btn1.setAttribute('download', '');
-                btn1.className = 'btn btn-primary w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white';
-                btn1.innerHTML = `
+
+                const actionLabel = p.is_purchased
+                    ? 'Download Sekarang'
+                    : (p.is_logged_in ? 'Bayar & Download' : 'Login untuk Beli');
+
+                const button = document.createElement('a');
+                button.href = config.url;
+                button.className = config.buttonClass;
+                button.innerHTML = `
                     <div>
                         <i class="bi bi-file-earmark-arrow-down-fill me-2 fs-5"></i>
-                        <strong>Aset Pilihan 1</strong>
+                        <strong>${config.title}</strong>
+                        <div class="small text-white-50 mt-1">${actionLabel}</div>
                     </div>
-                    <span class="badge bg-white text-primary">.${ext}</span>
+                    <span class="${config.badgeClass}">.${config.ext}</span>
                 `;
-                downloadButtonsContainer.appendChild(btn1);
-            }
-            
-            if (p.model_path_2) {
-                hasDownloads = true;
-                const ext = p.model_ext_2 ? p.model_ext_2.toUpperCase() : 'Aset 2';
-                const btn2 = document.createElement('a');
-                btn2.href = p.model_path_2;
-                btn2.setAttribute('download', '');
-                btn2.className = 'btn btn-success w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-start text-white';
-                btn2.innerHTML = `
-                    <div>
-                        <i class="bi bi-file-earmark-arrow-down-fill me-2 fs-5"></i>
-                        <strong>Aset Pilihan 2</strong>
-                    </div>
-                    <span class="badge bg-white text-success">.${ext}</span>
-                `;
-                downloadButtonsContainer.appendChild(btn2);
-            }
-            
+
+                downloadButtonsContainer.appendChild(button);
+            });
+
             if (hasDownloads) {
                 downloadSection.classList.remove('d-none');
+                downloadSectionHint.textContent = p.is_purchased
+                    ? 'Pembayaran untuk produk ini sudah selesai. Anda bisa langsung mengunduh file aset.'
+                    : (p.is_logged_in
+                        ? 'Klik tombol aset untuk membuka checkout Midtrans sebelum download dimulai.'
+                        : 'Klik tombol aset untuk login terlebih dahulu, lalu lanjutkan ke pembayaran Midtrans.');
             } else {
                 downloadSection.classList.add('d-none');
             }

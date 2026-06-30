@@ -18,6 +18,10 @@
 
   <!-- Custom Style -->
   <style>
+    :root {
+      --cms-sidebar-width: 260px;
+    }
+
     body {
       background-color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
@@ -27,6 +31,7 @@
       background-color: #fff;
       padding-top: 2rem;
       height: 100vh;
+      overflow-y: auto;
     }
 
     .sidebar a {
@@ -55,6 +60,20 @@
       font-size: 1.2rem;
     }
 
+    .desktop-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--cms-sidebar-width);
+      z-index: 1030;
+      border-right: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0.5rem 1.5rem rgba(15, 23, 42, 0.08);
+    }
+
+    .cms-main {
+      width: 100%;
+    }
+
     .card:hover {
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
@@ -63,17 +82,22 @@
       .mobile-toggle {
         display: none;
       }
+
+      .cms-main {
+        margin-left: var(--cms-sidebar-width);
+        width: calc(100% - var(--cms-sidebar-width));
+      }
     }
   </style>
 
   @stack('styles')
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="row flex-nowrap">
+  <div class="container-fluid px-0">
+    <div class="row flex-nowrap g-0">
       
       <!-- Sidebar for desktop -->
-      <div class="col-md-2 d-none d-md-block sidebar">
+      <div class="col-md-2 d-none d-md-block sidebar desktop-sidebar">
         <div class="text-center">
           <img src="{{ asset('assets/img/Logo-Meta.png') }}" alt="Logo" style="max-width: 70%; margin-bottom: 20px;">
         </div>
@@ -96,9 +120,9 @@
       </div>
 
       <!-- Main Content -->
-      <div class="col px-0">
+      <div class="col px-0 cms-main">
         <!-- Navbar -->
-        <nav class="navbar navbar-light shadow-sm px-4 py-3 d-flex justify-content-between align-items-center">
+        <nav class="navbar navbar-light bg-white shadow-sm px-4 py-3 d-flex justify-content-between align-items-center sticky-top">
           <!-- Toggle Button for Mobile -->
           <button class="btn btn-outline-danger d-md-none mobile-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
             <i class="bi bi-list"></i>

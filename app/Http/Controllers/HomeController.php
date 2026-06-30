@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Partner;
 use App\Models\Project;
-use Illuminate\Http\Request;
+use App\Models\Purchase;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::landing()->get();
 
         $slidesData = $categories->map(function ($category) {
             return [
@@ -46,12 +47,19 @@ class HomeController extends Controller
     public function product()
     {
         $projects = Project::with('category')->where('is_product', true)->latest()->get();
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::product()->orderBy('name')->get();
         $featuredProject = $projects->first();
+        $purchasedProjectIds = Auth::check()
+            ? Purchase::where('user_id', Auth::id())->where('status', 'paid')->pluck('project_id')->all()
+            : [];
 
-        return view('product', compact('projects', 'categories', 'featuredProject'));
+        return view('product', [
+            'projects' => $projects,
+            'categories' => $categories,
+            'featuredProject' => $featuredProject,
+            'purchasedProjectIds' => $purchasedProjectIds,
+            'isLoggedIn' => Auth::check(),
+            'loginUrl' => route('login', ['redirect' => route('product')]),
+        ]);
     }
-
-     
-
 }

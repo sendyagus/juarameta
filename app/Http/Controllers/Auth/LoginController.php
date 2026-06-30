@@ -20,12 +20,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/product';
 
     /**
      * Create a new controller instance.

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -17,7 +18,7 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::landing()->orderBy('name')->get();
         return view('cms.projects.create',compact('categories'));
     }
 
@@ -25,7 +26,7 @@ class ProjectController extends Controller
 {
     $request->validate([
         'title' => 'required',
-        'category_id' => 'required|exists:categories,id',  // update validasi kategori
+        'category_id' => ['required', Rule::exists('categories', 'id')->where('type', 'landing')],
         'image' => 'image|mimes:jpeg,png,jpg,gif|max:10248',
         'model_path' => 'nullable|file|mimes:glb|max:100248',
     ]);
@@ -49,7 +50,7 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
-        $categories = Category::all();
+        $categories = Category::landing()->orderBy('name')->get();
         return view('cms.projects.edit', compact('project','categories'));
     }
 
@@ -57,7 +58,7 @@ class ProjectController extends Controller
 {
     $request->validate([
         'title' => 'required',
-        'category_id' => 'required|exists:categories,id',  // update validasi kategori
+        'category_id' => ['required', Rule::exists('categories', 'id')->where('type', 'landing')],
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10248',
         'model_path' => 'nullable|file|mimes:glb|max:100248',
     ]);
