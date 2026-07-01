@@ -42,15 +42,30 @@ class PurchaseController extends Controller
             ->latest('id')
             ->first();
 
+        // Verify with Midtrans if the pending transaction is still valid
         if ($existingTransaction && $existingTransaction->snap_token) {
-            return view('checkout', [
-                'product' => $product,
-                'assetKey' => $assetKey,
-                'snapToken' => $existingTransaction->snap_token,
-                'paymentTransaction' => $existingTransaction,
-                'downloadUrl' => route('products.download', ['product' => $product, 'assetKey' => $assetKey]),
-                'finishUrl' => route('purchases.finish', ['orderId' => $existingTransaction->order_id, 'assetKey' => $assetKey]),
-            ]);
+            $statusResponse = Http::withBasicAuth(config('midtrans.server_key'), '')
+                ->acceptJson()
+                ->get(config('midtrans.api_base_url') . '/v2/' . $existingTransaction->order_id . '/status');
+
+            if ($statusResponse->successful()) {
+                $this->applyMidtransStatus($existingTransaction, $statusResponse->json());
+                $existingTransaction->refresh();
+            }
+
+            // Only reuse the token if the transaction is still pending/challenge and not expired
+            if (in_array($existingTransaction->status, ['pending', 'challenge']) &&
+                (!$existingTransaction->expiry_time || $existingTransaction->expiry_time->isFuture())) {
+                return view('checkout', [
+                    'product' => $product,
+                    'assetKey' => $assetKey,
+                    'snapToken' => $existingTransaction->snap_token,
+                    'paymentTransaction' => $existingTransaction,
+                    'downloadUrl' => route('products.download', ['product' => $product, 'assetKey' => $assetKey]),
+                    'finishUrl' => route('purchases.finish', ['orderId' => $existingTransaction->order_id, 'assetKey' => $assetKey]),
+                    'retryUrl' => route('purchases.start', ['product' => $product, 'assetKey' => $assetKey]),
+                ]);
+            }
         }
 
         $orderId = 'JM-' . $product->id . '-' . $user->id . '-' . now()->format('YmdHis');
@@ -125,6 +140,7 @@ class PurchaseController extends Controller
             'paymentTransaction' => $paymentTransaction,
             'downloadUrl' => route('products.download', ['product' => $product, 'assetKey' => $assetKey]),
             'finishUrl' => route('purchases.finish', ['orderId' => $paymentTransaction->order_id, 'assetKey' => $assetKey]),
+            'retryUrl' => route('purchases.start', ['product' => $product, 'assetKey' => $assetKey]),
         ]);
     }
 
@@ -149,6 +165,14 @@ class PurchaseController extends Controller
                 'product' => $transaction->project_id,
                 'assetKey' => $assetKey,
             ])->with('success', 'Pembayaran berhasil. File siap diunduh.');
+        }
+
+        // If expired, redirect to start a new transaction
+        if ($transaction->status === 'expired') {
+            return redirect()->route('purchases.start', [
+                'product' => $transaction->project_id,
+                'assetKey' => $assetKey,
+            ])->with('payment_warning', 'Transaksi sebelumnya sudah kedaluwarsa. Silakan lakukan pembayaran ulang.');
         }
 
         return redirect()->route('product')->with('payment_error', 'Pembayaran belum berhasil diselesaikan. Silakan coba lagi.');

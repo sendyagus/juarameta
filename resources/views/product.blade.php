@@ -8,6 +8,7 @@
     <meta name="description" content="Koleksi 3D Model eksklusif berkualitas tinggi dari JuaraMeta untuk metaverse dan simulasi." />
     <link rel="icon" type="image/png" href="{{ asset('assets/img/Logo-Meta.png') }}" />
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
         body {
@@ -16,20 +17,70 @@
             color: #2d3340;
         }
 
-        /* ── HEADER ── */
-        .product-header {
-            background: #fff;
-            border-bottom: 1px solid #e9edf3:
-            padding: 12px 0;
+        /* ── HEADER (same as home page) ── */
+        #header {
+            transition: all 0.5s;
+            z-index: 997;
+            padding: 15px 0;
         }
-        .product-logo { max-height: 54px; }
-        .product-nav a {
-            font-size: 14px;
-            color: #525f75;
-            text-decoration: none;
-            margin-left: 22px;
+        #header.header-scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0,0,0,.08);
         }
-        .product-nav a.active { color: #2b69f0; font-weight: 600; }
+        #header .logo {
+            font-size: 30px;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        #header .logo a { color: #10b1e9; font-weight: 800; }
+        #header .logo img { max-height: 50px; }
+
+        .navbar { padding: 0; }
+        .navbar ul {
+            margin: 0; padding: 0;
+            display: flex; list-style: none; align-items: center;
+        }
+        .navbar li { position: relative; }
+        .navbar a, .navbar a:focus {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0 10px 30px; font-size: 15px; font-weight: 500;
+            color: #252525; white-space: nowrap; transition: 0.3s; text-decoration: none;
+        }
+        .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
+            color: #10b1e9;
+        }
+
+        .mobile-nav-toggle {
+            color: #222; font-size: 28px; cursor: pointer;
+            display: none; line-height: 0; transition: 0.5s;
+        }
+        @media (max-width: 991px) {
+            .mobile-nav-toggle { display: block; }
+            .navbar ul { display: none; }
+        }
+        .navbar-mobile {
+            position: fixed; overflow: hidden;
+            top: 0; right: 0; left: 0; bottom: 0;
+            background: rgba(255,255,255,.9); transition: 0.3s; z-index: 999;
+        }
+        .navbar-mobile .mobile-nav-toggle { position: absolute; top: 15px; right: 15px; }
+        .navbar-mobile ul {
+            display: block; position: absolute;
+            top: 55px; right: 15px; bottom: 15px; left: 15px;
+            padding: 10px 0; border-radius: 10px;
+            background: #fff; box-shadow: 0 0 30px rgba(0,0,0,.15);
+            overflow-y: auto; transition: 0.3s;
+        }
+        .navbar-mobile a, .navbar-mobile a:focus {
+            padding: 10px 20px; font-size: 15px; color: #282828;
+        }
+        .navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a {
+            color: #10b1e9;
+        }
 
         /* ── LAYOUT ── */
         .product-wrapper { padding: 44px 0 70px; }
@@ -264,21 +315,26 @@
 </head>
 
 <body>
-    <header class="product-header">
-        <div class="container d-flex align-items-center justify-content-between">
-            <img src="{{ asset('assets/img/Logo-Meta.png') }}" alt="JuaraMeta" class="product-logo">
-            <nav class="product-nav d-none d-md-block">
-                <a href="{{ route('home') }}#hero">Home</a>
-                <a href="{{ route('home') }}#about">About</a>
-                <a href="{{ route('home') }}#gallery">Project</a>
-                <a href="{{ route('home') }}#faqs">FAQs</a>
-                <a href="{{ route('home') }}#contact">Contact</a>
-                <a href="{{ route('product') }}" class="active">Product</a>
+    <header id="header" class="fixed-top header-scrolled">
+        <div class="container d-flex align-items-center">
+            <h1 class="logo me-auto">
+                <a href="{{ route('home') }}"><img style="max-height: 60px" src="{{ asset('assets/img/Logo-Meta.png') }}" alt="JuaraMeta" /></a>
+            </h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link" href="{{ route('home') }}#hero">Home</a></li>
+                    <li><a class="nav-link" href="{{ route('home') }}#about">About</a></li>
+                    <li><a class="nav-link" href="{{ route('home') }}#gallery">Project</a></li>
+                    <li><a class="nav-link" href="{{ route('home') }}#faqs">FaQs</a></li>
+                    <li><a class="nav-link" href="{{ route('home') }}#contact">Contact</a></li>
+                    <li><a class="nav-link active" href="{{ route('product') }}">Product</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
         </div>
     </header>
 
-    <main class="product-wrapper">
+    <main class="product-wrapper" style="padding-top: 100px;">
         <div class="container">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
@@ -290,6 +346,13 @@
             @if (session('payment_error'))
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
                     {{ session('payment_error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session('payment_warning'))
+                <div class="alert alert-warning alert-dismissible fade show shadow-sm mb-4" role="alert">
+                    <strong>Perhatian!</strong> {{ session('payment_warning') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
@@ -307,13 +370,14 @@
                         <div class="hero-model-wrap">
                             <model-viewer
                                 class="hero-model-viewer"
-                                src="{{ asset('assets/3d/teknokrat.glb') }}"
+                                src="{{ asset('assets/3d/tekno.glb') }}"
                                 alt="Universitas Teknokrat Indonesia"
                                 camera-controls
                                 auto-rotate
                                 shadow-intensity="1.2"
                                 exposure="1"
                                 interaction-prompt="none"
+                                 camera-orbit="0deg 75deg 80%"
                             ></model-viewer>
                         </div>
                     </div>
@@ -465,6 +529,42 @@
 
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
+        /* ── HEADER SCROLL EFFECT ── */
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+        // Trigger on load
+        if (window.scrollY > 50) {
+            document.getElementById('header').classList.add('header-scrolled');
+        }
+
+        /* ── MOBILE NAV TOGGLE (same as home) ── */
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        if (mobileNavToggle) {
+            mobileNavToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.body.classList.toggle('navbar-mobile');
+                const icon = this;
+                icon.classList.toggle('bi-list');
+                icon.classList.toggle('bi-x');
+            });
+        }
+
+        // Close mobile nav when clicking a link
+        document.querySelectorAll('.navbar-mobile a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                document.body.classList.remove('navbar-mobile');
+                const icon = document.querySelector('.mobile-nav-toggle');
+                icon.classList.add('bi-list');
+                icon.classList.remove('bi-x');
+            });
+        });
+
         /* ── FILTER & SEARCH ── */
         const categoryFilter = document.getElementById('categoryFilter');
         const searchInput    = document.getElementById('searchInput');

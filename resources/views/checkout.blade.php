@@ -130,6 +130,11 @@
 </head>
 <body>
     <main class="checkout-shell">
+        @if (session('payment_warning'))
+            <div style="position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff3cd;border:1px solid #ffc107;color:#664d03;padding:12px 24px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);max-width:600px;width:90%;text-align:center;font-size:14px;">
+                <strong>⚠️ Perhatian!</strong> {{ session('payment_warning') }}
+            </div>
+        @endif
         <section class="checkout-card">
             <div class="checkout-hero">
                 <span class="status-pill">Pembayaran Midtrans</span>
@@ -172,6 +177,7 @@
     <script>
         const snapToken = @json($snapToken);
         const finishUrl = @json($finishUrl);
+        const retryUrl = @json($retryUrl ?? null);
 
         function openSnapPayment() {
             if (!snapToken || !window.snap) {
@@ -186,8 +192,13 @@
                 onPending: function () {
                     window.location.href = finishUrl;
                 },
-                onError: function () {
-                    window.location.href = @json(route('product'));
+                onError: function (result) {
+                    // Transaction expired or failed — create a new transaction
+                    if (retryUrl) {
+                        window.location.href = retryUrl;
+                    } else {
+                        window.location.href = @json(route('product'));
+                    }
                 },
                 onClose: function () {
                     console.log('User menutup popup pembayaran.');

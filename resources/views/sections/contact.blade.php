@@ -8,7 +8,7 @@
       <div class="row justify-content-center align-items-stretch g-4">
         <div class="col-lg-7 mt-3 mt-lg-0">
           <div class="bg-white p-4 rounded-4 shadow-sm text-center h-100 d-flex flex-column justify-content-center" data-aos="zoom-in" data-aos-delay="200">
-            <h5 class="fw-bold mb-3 text-danger">Ikuti Kami di Sosial Media</h5>
+            <h5 class="fw-bold mb-3 ">Ikuti Kami di Sosial Media</h5>
             <p class="text-muted mb-4">Dapatkan insight, event, dan inovasi terbaru langsung dari JuaraMeta!</p>
             <div class="d-flex justify-content-center gap-4 fs-3">
               <a href="https://www.instagram.com/juarameta/" class="social-icon instagram" target="_blank" title="Instagram"><i class="bi bi-instagram"></i></a>
