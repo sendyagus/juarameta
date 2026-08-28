@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -330,6 +330,175 @@
     }
 }
 
+/* ===== Navbar Auth Menu ===== */
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    margin-left: 18px;
+    position: relative;
+    z-index: 1001;
+}
+
+.navbar-login-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px !important;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #10b1e9 0%, #0a7db4 100%);
+    color: #fff !important;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-decoration: none;
+    box-shadow: 0 12px 24px rgba(16, 177, 233, .24);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.navbar-login-btn:hover,
+.navbar-login-btn:focus {
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(16, 177, 233, .32);
+    filter: brightness(1.04);
+}
+
+.navbar-user-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.navbar-user-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    /* padding: 6px 12px 6px 6px;    */
+    border: 1px solid rgba(255, 255, 255, 1);
+    border-radius: 999px;
+    /* background: rgba(255, 255, 255, .92); */
+    /* box-shadow: 0 10px 24px rgba(14, 36, 66, .1); */
+    color: #000;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.navbar-user-trigger:hover,
+.navbar-user-menu:focus-within .navbar-user-trigger {
+    transform: translateY(-2px);
+    /* border-color: rgba(16, 177, 233, .4);
+    box-shadow: 0 16px 30px rgba(14, 36, 66, .14); */
+}
+
+.navbar-user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: linear-gradient(135deg, #10b1e9, #7dd3fc);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.navbar-user-avatar--fallback {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
+}
+
+.navbar-user-dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    min-width: 260px;
+    padding: 10px;
+    border-radius: 18px;
+    background: rgba(12, 18, 28, .96);
+    color: #fff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .24);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(.98);
+    transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+}
+
+.navbar-user-menu:hover .navbar-user-dropdown,
+.navbar-user-menu:focus-within .navbar-user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.navbar-user-info {
+    padding: 10px 12px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    margin-bottom: 8px;
+}
+
+.navbar-user-info strong,
+.navbar-user-info span {
+    display: block;
+}
+
+.navbar-user-info strong {
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.navbar-user-info span {
+    margin-top: 4px;
+    color: rgba(255, 255, 255, .68);
+    font-size: 12px;
+    word-break: break-word;
+}
+
+.navbar-user-link,
+.navbar-user-logout {
+    width: 100%;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 10px;
+    padding: 11px 12px !important;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    transition: background .18s ease, transform .18s ease;
+}
+
+.navbar-user-link:hover,
+.navbar-user-logout:hover {
+    background: rgba(255, 255, 255, .08);
+    color: #fff !important;
+    transform: translateX(2px);
+}
+
+.navbar-logout-form {
+    margin: 0;
+}
+
+@media (max-width: 991px) {
+    .navbar-auth {
+        margin-left: auto;
+        margin-right: 12px;
+    }
+
+    .navbar-user-dropdown {
+        right: 0;
+        left: auto;
+    }
+}
+
     </style>
 
 <style>
@@ -544,7 +713,7 @@
 <body>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center">
+        <div class="container-fluid d-flex align-items-center  px-5">
             <h1 class="logo me-auto">
                 <a href="index.html"><img style="max-height: 60px" src="assets/img/Logo-Meta.png" alt="" /></a>
             </h1>
@@ -557,6 +726,39 @@
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
                     <li><a class="nav-link" href="{{ route('product') }}">Product</a></li>
                 </ul>
+
+                <div class="navbar-auth">
+                    @guest
+                        <a href="{{ route('login') }}" class="navbar-login-btn" id="navbar-login-btn">Login</a>
+                    @else
+                        <div class="navbar-user-menu" id="navbar-user-menu">
+                            <button type="button" class="navbar-user-trigger" aria-label="User menu">
+                                @if (auth()->user()->avatar)
+                                    <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}" class="navbar-user-avatar">
+                                @else
+                                    <span class="navbar-user-avatar navbar-user-avatar--fallback">
+                                        {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                                    </span>
+                                @endif
+                                <!-- <i class="bi bi-chevron-down"></i> -->
+                            </button>
+
+                            <div class="navbar-user-dropdown" id="navbar-user-dropdown">
+                                <div class="navbar-user-info">
+                                    <strong>{{ auth()->user()->name }}</strong>
+                                    <span>{{ auth()->user()->email }}</span>
+                                </div>
+                                <a href="{{ url('/my-collection') }}" class="navbar-user-link">My Collection</a>
+                                <a href="{{ route('profile.edit') }}" class="navbar-user-link">Account Setting</a>
+                                <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
+                                    @csrf
+                                    <button type="submit" class="navbar-user-link navbar-user-logout">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endguest
+                </div>
+
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
             <!-- .navbar -->
@@ -636,7 +838,7 @@
             <div style="text-align: right; margin-top: 25px;">
                 <a id="popup-link" href="#" target="_blank"
                     style=" color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; transition: background 0.3s;">
-                    🔗 View in Spatial
+                    ðŸ”— View in Spatial
                 </a>
             </div>
         </div>
@@ -857,11 +1059,11 @@
 
     <script>
         const phrases = [
-            "🚀 Menjelajah Dunia Metaverse",
-            "🌐 Transformasi Digital Kampus",
-            "🎓 Edukasi Virtual Imersif",
-            "💡 Kolaborasi di Era 3D",
-            "📡 Masa Depan Dimulai di Sini"
+            "ðŸš€ Menjelajah Dunia Metaverse",
+            "ðŸŒ Transformasi Digital Kampus",
+            "ðŸŽ“ Edukasi Virtual Imersif",
+            "ðŸ’¡ Kolaborasi di Era 3D",
+            "ðŸ“¡ Masa Depan Dimulai di Sini"
         ];
 
         let index = 0;
@@ -945,3 +1147,4 @@
 </body>
 
 </html>
+

@@ -94,7 +94,10 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
-            'expire' => 60,
+            // Token reset password otomatis unik, tersimpan dalam bentuk hash,
+            // dan akan dihapus oleh Laravel setelah password berhasil diganti.
+            // Karena itu link reset hanya dapat digunakan satu kali.
+            'expire' => 30,
             'throttle' => 60,
         ],
     ],

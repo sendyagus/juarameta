@@ -117,6 +117,9 @@
         <a href="{{ route('categories.index') }}" class="{{ request()->is('categories*') ? 'active' : '' }}">
           <i class="bx bx-category-alt"></i> Categories
         </a>
+        <a href="{{ route('users.index') }}" class="{{ request()->is('users*') ? 'active' : '' }}">
+          <i class="bx bx-user"></i> Users
+        </a>
       </div>
 
       <!-- Main Content -->
@@ -164,6 +167,9 @@
       </a>
       <a href="{{ route('categories.index') }}" class="{{ request()->is('categories*') ? 'active' : '' }}">
         <i class="bx bx-category-alt"></i> Categories
+      </a>
+      <a href="{{ route('users.index') }}" class="{{ request()->is('users*') ? 'active' : '' }}">
+        <i class="bx bx-user"></i> Users
       </a>
     </div>
   </div>

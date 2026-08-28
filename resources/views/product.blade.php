@@ -8,6 +8,7 @@
     <meta name="description" content="Koleksi 3D Model eksklusif berkualitas tinggi dari JuaraMeta untuk metaverse dan simulasi." />
     <link rel="icon" type="image/png" href="{{ asset('assets/img/Logo-Meta.png') }}" />
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
@@ -16,75 +17,11 @@
             background: #f5f6f8;
             color: #2d3340;
         }
+        /* Product page uses the shared navbar styles from assets/css/style.css. */
 
-        /* ── HEADER (same as home page) ── */
-        #header {
-            transition: all 0.5s;
-            z-index: 997;
-            padding: 15px 0;
-        }
-        #header.header-scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 20px rgba(0,0,0,.08);
-        }
-        #header .logo {
-            font-size: 30px;
-            margin: 0;
-            padding: 0;
-            line-height: 1;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        #header .logo a { color: #10b1e9; font-weight: 800; }
-        #header .logo img { max-height: 50px; }
-
-        .navbar { padding: 0; }
-        .navbar ul {
-            margin: 0; padding: 0;
-            display: flex; list-style: none; align-items: center;
-        }
-        .navbar li { position: relative; }
-        .navbar a, .navbar a:focus {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0 10px 30px; font-size: 15px; font-weight: 500;
-            color: #252525; white-space: nowrap; transition: 0.3s; text-decoration: none;
-        }
-        .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-            color: #10b1e9;
-        }
-
-        .mobile-nav-toggle {
-            color: #222; font-size: 28px; cursor: pointer;
-            display: none; line-height: 0; transition: 0.5s;
-        }
-        @media (max-width: 991px) {
-            .mobile-nav-toggle { display: block; }
-            .navbar ul { display: none; }
-        }
-        .navbar-mobile {
-            position: fixed; overflow: hidden;
-            top: 0; right: 0; left: 0; bottom: 0;
-            background: rgba(255,255,255,.9); transition: 0.3s; z-index: 999;
-        }
-        .navbar-mobile .mobile-nav-toggle { position: absolute; top: 15px; right: 15px; }
-        .navbar-mobile ul {
-            display: block; position: absolute;
-            top: 55px; right: 15px; bottom: 15px; left: 15px;
-            padding: 10px 0; border-radius: 10px;
-            background: #fff; box-shadow: 0 0 30px rgba(0,0,0,.15);
-            overflow-y: auto; transition: 0.3s;
-        }
-        .navbar-mobile a, .navbar-mobile a:focus {
-            padding: 10px 20px; font-size: 15px; color: #282828;
-        }
-        .navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a {
-            color: #10b1e9;
-        }
-
-        /* ── LAYOUT ── */
+        /* -- LAYOUT -- */
         .product-wrapper { padding: 44px 0 70px; }
-        /* ── HERO ── */
+        /* â”€â”€ HERO â”€â”€ */
         .product-hero {
             border-radius: 14px;
             background: linear-gradient(130deg, #d7ebfc 0%, #c7e3fb 55%, #b9dcfb 100%);
@@ -138,12 +75,12 @@
             filter: drop-shadow(0 18px 28px rgba(26, 58, 92, 0.18));
         }
 
-        /* ── TOOLBAR ── */
+        /* â”€â”€ TOOLBAR â”€â”€ */
         .toolbar { margin: 28px 0 24px; display: flex; gap: 14px; }
         .filter-select { max-width: 190px; border-radius: 10px; border: 1px solid #dce3ed; height: 48px; }
         .search-box { border-radius: 26px; border: 1px solid #dce3ed; height: 48px; }
 
-        /* ── PRODUCT CARD ── */
+        /* â”€â”€ PRODUCT CARD â”€â”€ */
         .product-card {
             background: #fff;
             border: 1px solid #e4e8ee;
@@ -190,7 +127,7 @@
         .product-author { color: #9aa4b4; font-size: 13px; }
         .product-price { color: #2b69f0ff; font-size: 22px; font-weight: 700; }
 
-        /* ── MODAL ── */
+        /* â”€â”€ MODAL â”€â”€ */
         .modal-xl { max-width: 1000px; }
 
         .modal-product .modal-content {
@@ -311,24 +248,225 @@
             .hero-model-wrap,
             .hero-model-viewer { height: 280px; }
         }
+        /* ===== Navbar Auth Menu ===== */
+        .navbar-auth {
+            display: flex;
+            align-items: center;
+            margin-left: 18px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .navbar-login-btn {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 0 20px !important;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #10b1e9 0%, #0a7db4 100%);
+            color: #fff !important;
+            font-weight: 700;
+            letter-spacing: .02em;
+            text-decoration: none;
+            box-shadow: 0 12px 24px rgba(16, 177, 233, .24);
+            transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+        }
+
+        .navbar-login-btn:hover,
+        .navbar-login-btn:focus {
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(16, 177, 233, .32);
+            filter: brightness(1.04);
+        }
+
+        .navbar-user-menu {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .navbar-user-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 46px;
+            padding: 6px 12px 6px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .92);
+            /* box-shadow: 0 10px 24px rgba(14, 36, 66, .1); */
+            /* color: #1c2430; */
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+
+        .navbar-user-trigger:hover,
+        .navbar-user-menu:focus-within .navbar-user-trigger {
+            transform: translateY(-2px);
+            /* border-color: rgba(16, 177, 233, .4);
+            box-shadow: 0 16px 30px rgba(14, 36, 66, .14); */
+        }
+
+        .navbar-user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #10b1e9, #7dd3fc);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .navbar-user-avatar--fallback {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
+        }
+
+        .navbar-user-dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            right: 0;
+            min-width: 260px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(12, 18, 28, .96);
+            color: #fff;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .24);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(.98);
+            transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+        }
+
+        .navbar-user-menu:hover .navbar-user-dropdown,
+        .navbar-user-menu:focus-within .navbar-user-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .navbar-user-info {
+            padding: 10px 12px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            margin-bottom: 8px;
+        }
+
+        .navbar-user-info strong,
+        .navbar-user-info span {
+            display: block;
+        }
+
+        .navbar-user-info strong {
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .navbar-user-info span {
+            margin-top: 4px;
+            color: rgba(255, 255, 255, .68);
+            font-size: 12px;
+            word-break: break-word;
+        }
+
+        .navbar-user-link,
+        .navbar-user-logout {
+            width: 100%;
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start !important;
+            gap: 10px;
+            padding: 11px 12px !important;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            color: #fff !important;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            transition: background .18s ease, transform .18s ease;
+        }
+
+        .navbar-user-link:hover,
+        .navbar-user-logout:hover {
+            background: rgba(255, 255, 255, .08);
+            color: #fff !important;
+            transform: translateX(2px);
+        }
+
+        .navbar-logout-form {
+            margin: 0;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-auth {
+                margin-left: auto;
+                margin-right: 12px;
+            }
+
+            .navbar-user-dropdown {
+                right: 0;
+                left: auto;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <header id="header" class="fixed-top header-scrolled">
-        <div class="container d-flex align-items-center">
+    <header id="header" class="fixed-top">
+        <div class="container-fluid d-flex align-items-center  px-5">
             <h1 class="logo me-auto">
                 <a href="{{ route('home') }}"><img style="max-height: 60px" src="{{ asset('assets/img/Logo-Meta.png') }}" alt="JuaraMeta" /></a>
             </h1>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link" href="{{ route('home') }}#hero">Home</a></li>
-                    <li><a class="nav-link" href="{{ route('home') }}#about">About</a></li>
-                    <li><a class="nav-link" href="{{ route('home') }}#gallery">Project</a></li>
-                    <li><a class="nav-link" href="{{ route('home') }}#faqs">FaQs</a></li>
-                    <li><a class="nav-link" href="{{ route('home') }}#contact">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('home') }}#hero">Home</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('home') }}#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('home') }}#gallery">Project</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('home') }}#faqs">FaQs</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('home') }}#contact">Contact</a></li>
                     <li><a class="nav-link active" href="{{ route('product') }}">Product</a></li>
                 </ul>
+
+                <div class="navbar-auth">
+                    @guest
+                        <a href="{{ route('login') }}" class="navbar-login-btn" id="product-navbar-login-btn">Login</a>
+                    @else
+                        <div class="navbar-user-menu" id="product-navbar-user-menu">
+                            <button type="button" class="navbar-user-trigger" aria-label="User menu">
+                                @if (auth()->user()->avatar)
+                                    <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}" class="navbar-user-avatar">
+                                @else
+                                    <span class="navbar-user-avatar navbar-user-avatar--fallback">
+                                        {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                                    </span>
+                                @endif
+                                <!-- <i class="bi bi-chevron-down"></i> -->
+                            </button>
+
+                            <div class="navbar-user-dropdown" id="product-navbar-user-dropdown">
+                                <div class="navbar-user-info">
+                                    <strong>{{ auth()->user()->name }}</strong>
+                                    <span>{{ auth()->user()->email }}</span>
+                                </div>
+                                <a href="{{ url('/my-collection') }}" class="navbar-user-link">My Collection</a>
+                                <a href="{{ route('profile.edit') }}" class="navbar-user-link">Account Setting</a>
+                                <form action="{{ route('logout') }}" method="POST" class="navbar-logout-form">
+                                    @csrf
+                                    <button type="submit" class="navbar-user-link navbar-user-logout">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    @endguest
+                </div>
+
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
         </div>
@@ -377,7 +515,7 @@
                                 shadow-intensity="1.2"
                                 exposure="1"
                                 interaction-prompt="none"
-                                 camera-orbit="0deg 75deg 80%"
+                                 camera-orbit="0deg 75deg 60%"
                             ></model-viewer>
                         </div>
                     </div>
@@ -510,7 +648,7 @@
 
                                 <div id="modalSpatialWrap" class="mt-3 d-none">
                                     <a id="modalSpatialLink" href="#" target="_blank" class="spatial-btn">
-                                        🌐 Buka di Spatial.io
+                                        ðŸŒ Buka di Spatial.io
                                     </a>
                                 </div>
                             </div>
@@ -529,7 +667,7 @@
 
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        /* ── HEADER SCROLL EFFECT ── */
+        /* â”€â”€ HEADER SCROLL EFFECT â”€â”€ */
         window.addEventListener('scroll', function () {
             const header = document.getElementById('header');
             if (window.scrollY > 50) {
@@ -543,7 +681,7 @@
             document.getElementById('header').classList.add('header-scrolled');
         }
 
-        /* ── MOBILE NAV TOGGLE (same as home) ── */
+        /* â”€â”€ MOBILE NAV TOGGLE (same as home) â”€â”€ */
         const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
         if (mobileNavToggle) {
             mobileNavToggle.addEventListener('click', function (e) {
@@ -565,7 +703,7 @@
             });
         });
 
-        /* ── FILTER & SEARCH ── */
+        /* â”€â”€ FILTER & SEARCH â”€â”€ */
         const categoryFilter = document.getElementById('categoryFilter');
         const searchInput    = document.getElementById('searchInput');
         const productItems   = document.querySelectorAll('.product-item');
@@ -582,7 +720,7 @@
         categoryFilter.addEventListener('change', filterProducts);
         searchInput.addEventListener('input', filterProducts);
 
-        /* ── MODAL ── */
+        /* â”€â”€ MODAL â”€â”€ */
         const productModal = new bootstrap.Modal(document.getElementById('productModal'));
 
         function formatRupiah(n) {
@@ -595,7 +733,7 @@
 
             // Badges
             let badges = `<span class="detail-badge">${p.category}</span>`;
-            if (p.is_hot) badges += ` <span class="detail-badge hot">🔥 HOT</span>`;
+            if (p.is_hot) badges += ` <span class="detail-badge hot">ðŸ”¥ HOT</span>`;
             document.getElementById('modalBadges').innerHTML = badges;
 
             // Info
@@ -690,14 +828,14 @@
                 spatialWrap.classList.add('d-none');
             }
 
-            // ── VIEWER ──
+            // â”€â”€ VIEWER â”€â”€
             const wrap = document.getElementById('viewerWrap');
             wrap.innerHTML = ''; // reset
 
             const hint = document.getElementById('modalViewerHint');
 
             if (p.model_path && p.model_ext === 'glb') {
-                // ✅ GLB → model-viewer interaktif
+                // âœ… GLB â†’ model-viewer interaktif
                 const mv = document.createElement('model-viewer');
                 mv.setAttribute('src', p.model_path);
                 mv.setAttribute('alt', p.title);
@@ -716,30 +854,30 @@
 
                 const badge = document.createElement('div');
                 badge.className = 'model-badge';
-                badge.innerHTML = '🔄 Drag untuk memutar &nbsp;·&nbsp; Scroll untuk zoom';
+                badge.innerHTML = 'ðŸ”„ Drag untuk memutar &nbsp;Â·&nbsp; Scroll untuk zoom';
                 mv.appendChild(badge);
 
                 wrap.appendChild(mv);
-                hint.textContent = 'Model 3D interaktif — gunakan mouse/sentuh untuk memutar & zoom.';
+                hint.textContent = 'Model 3D interaktif â€” gunakan mouse/sentuh untuk memutar & zoom.';
 
             } else if (p.model_path && p.model_ext === 'fbx') {
-                // FBX → tampilkan info + link download karena browser tidak support FBX native
+                // FBX â†’ tampilkan info + link download karena browser tidak support FBX native
                 wrap.innerHTML = `
                     <div class="viewer-no-model text-center text-white w-100" style="padding:60px 40px;">
-                        <div style="font-size:72px;margin-bottom:16px;">📦</div>
+                        <div style="font-size:72px;margin-bottom:16px;">ðŸ“¦</div>
                         <h5 style="font-weight:700;margin-bottom:8px;">File FBX Tersedia</h5>
                         <p style="opacity:.7;font-size:13px;max-width:340px;margin:0 auto 20px;">
                             Format FBX tidak dapat diputar langsung di browser.<br>
                             Gunakan software 3D seperti Blender, Maya, atau 3ds Max.
                         </p>
                         <a href="${p.model_path}" download class="btn btn-outline-light btn-sm">
-                            ⬇️ Download File FBX
+                            â¬‡ï¸ Download File FBX
                         </a>
                     </div>`;
                 hint.textContent = 'File FBX tidak dapat dirender langsung di browser.';
 
             } else if (p.image) {
-                // Tidak ada model → tampilkan gambar
+                // Tidak ada model â†’ tampilkan gambar
                 wrap.innerHTML = `<img src="${p.image}" alt="${p.title}"
                     style="width:100%;height:420px;object-fit:contain;background:#111;">`;
                 hint.textContent = 'Produk ini belum memiliki model 3D.';
@@ -747,7 +885,7 @@
             } else {
                 wrap.innerHTML = `
                     <div class="viewer-no-model w-100">
-                        <span style="font-size:72px;display:block;margin-bottom:12px;text-align:center;">🧊</span>
+                        <span style="font-size:72px;display:block;margin-bottom:12px;text-align:center;">ðŸ§Š</span>
                         <p style="text-align:center;color:#aab;">Tidak ada gambar maupun model 3D.</p>
                     </div>`;
                 hint.textContent = '';
@@ -764,3 +902,4 @@
     </script>
 </body>
 </html>
+

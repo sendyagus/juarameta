@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MidtransWebhookController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +28,8 @@ Route::get('/product', [App\Http\Controllers\HomeController::class, 'product'])-
 Route::post('/midtrans/notifications', MidtransWebhookController::class)->name('midtrans.notifications');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/account-settings', [App\Http\Controllers\AccountSettingsController::class, 'index'])->name('profile.edit');
+
     Route::get('/purchases/{product}/{assetKey?}', [PurchaseController::class, 'start'])
         ->where('assetKey', 'primary|secondary')
         ->name('purchases.start');
@@ -35,7 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/download/{assetKey?}', [PurchaseController::class, 'download'])
         ->where('assetKey', 'primary|secondary')
         ->name('products.download');
+});
 
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
     Route::resource('projects', ProjectController::class);
     Route::resource('products', ProductAdminController::class)
@@ -43,6 +49,18 @@ Route::middleware('auth')->group(function () {
         ->except(['show']);
     Route::resource('partners', PartnerController::class);
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 });
 
+Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
+    ->whereIn('provider', ['google', 'apple'])
+    ->name('social.redirect');
+Route::match(['get', 'post'], '/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
+    ->whereIn('provider', ['google', 'apple'])
+    ->name('social.callback');
+
 Auth::routes();
+
