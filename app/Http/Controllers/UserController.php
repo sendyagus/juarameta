@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -43,14 +44,30 @@ class UserController extends Controller
     public function update(Request $request, User $user): RedirectResponse
     {
         $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
             'role' => ['required', 'in:user,admin'],
+            'password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $user->update([
+        $payload = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
             'role' => $validated['role'],
-        ]);
+        ];
 
-        return redirect()->route('users.index')->with('success', 'Role user berhasil diperbarui.');
+        if (! empty($validated['password'])) {
+            $payload['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($payload);
+
+        return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(User $user): RedirectResponse

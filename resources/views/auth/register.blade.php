@@ -98,9 +98,10 @@
     }
 
     .social-login-grid {
-      display: grid;
+      /* display: grid; */
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
+      width:100%;
     }
 
     .btn-social {
@@ -222,12 +223,12 @@
             </svg>
             Google
           </a>
-          <a id="register-apple" class="btn-social" href="{{ route('social.redirect', 'apple') }}" aria-label="Daftar dengan Apple">
+          <!-- <a id="register-apple" class="btn-social" href="{{ route('social.redirect', 'apple') }}" aria-label="Daftar dengan Apple">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path fill="currentColor" d="M16.37 1.43c0 1.14-.46 2.22-1.2 3.04-.79.88-2.09 1.55-3.16 1.46-.14-1.09.42-2.25 1.16-3.06.82-.9 2.25-1.58 3.2-1.44zM20.54 17.41c-.59 1.31-.87 1.89-1.62 3.04-1.05 1.61-2.53 3.62-4.37 3.64-1.63.02-2.05-1.06-4.27-1.05-2.22.01-2.69 1.08-4.32 1.06-1.84-.02-3.24-1.83-4.29-3.44-2.93-4.48-3.24-9.74-1.43-12.54 1.29-1.99 3.32-3.15 5.23-3.15 1.94 0 3.16 1.07 4.77 1.07 1.56 0 2.51-1.07 4.76-1.07 1.7 0 3.5.93 4.78 2.53-4.2 2.3-3.52 8.3.76 9.91z"/>
             </svg>
             Apple
-          </a>
+          </a> -->
         </div>
       </div>
     </div>

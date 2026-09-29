@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -771,6 +771,7 @@
     </main>
 
     </div>
+    @if(! View::hasSection('hide_footer'))
     <footer class="bg-dark text-light">
         <div class="container py-5">
             <div class="row">
@@ -779,6 +780,7 @@
                 </div>
             </div>
     </footer>
+    @endif
 
     <div id="modelPopup"
         style="
@@ -1059,90 +1061,94 @@
 
     <script>
         const phrases = [
-            "ðŸš€ Menjelajah Dunia Metaverse",
-            "ðŸŒ Transformasi Digital Kampus",
-            "ðŸŽ“ Edukasi Virtual Imersif",
-            "ðŸ’¡ Kolaborasi di Era 3D",
-            "ðŸ“¡ Masa Depan Dimulai di Sini"
+            "🚀 Menjelajah Dunia Metaverse",
+            "🌐 Transformasi Digital Kampus",
+            "🎓 Edukasi Virtual Imersif",
+            "💡 Kolaborasi di Era 3D",
+            "📡 Masa Depan Dimulai di Sini"
         ];
 
         let index = 0;
         const el = document.getElementById("metaverse-carousel");
 
-        function showNextPhrase() {
-            el.textContent = phrases[index];
-            index = (index + 1) % phrases.length;
-        }
+        if (el) {
+            function showNextPhrase() {
+                el.textContent = phrases[index];
+                index = (index + 1) % phrases.length;
+            }
 
-        showNextPhrase();
-        setInterval(showNextPhrase, 3000); // Ganti setiap 3 detik
+            showNextPhrase();
+            setInterval(showNextPhrase, 3000); // Ganti setiap 3 detik
+        }
     </script>
 
     <script>
-        const slidesData = @json($slidesData);
+        const slidesData = @json($slidesData ?? []);
 
         const wrapper = document.getElementById('workspace-wrapper');
         const indicator = document.getElementById('slide-indicator');
-        let currentIndex = 0;
-        let isThrottled = false;
 
-        function createIndicator() {
-            indicator.innerHTML = '';
-            slidesData.forEach((_, i) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (i === currentIndex) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    if (i !== currentIndex) {
-                        currentIndex = i;
-                        renderSlide(currentIndex);
-                    }
+        if (wrapper && indicator && slidesData.length > 0) {
+            let currentIndex = 0;
+            let isThrottled = false;
+
+            function createIndicator() {
+                indicator.innerHTML = '';
+                slidesData.forEach((_, i) => {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (i === currentIndex) dot.classList.add('active');
+                    dot.addEventListener('click', () => {
+                        if (i !== currentIndex) {
+                            currentIndex = i;
+                            renderSlide(currentIndex);
+                        }
+                    });
+                    indicator.appendChild(dot);
                 });
-                indicator.appendChild(dot);
-            });
-        }
+            }
 
-        function updateIndicator() {
-            const dots = indicator.querySelectorAll('.dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
-        }
+            function updateIndicator() {
+                const dots = indicator.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
 
-        function renderSlide(index) {
-            const data = slidesData[index];
-            wrapper.innerHTML = `
-              <div class="workspace-slide active" tabindex="0">
-                <div class="workspace-content">
-                  <h4>${data.title}</h4>
-                  <p>${data.desc}</p>
-                </div>
-                <div class="workspace-img">
-                  <img src="${data.img}" alt="${data.title}" class="workspace-img-hover">
-                </div>
-              </div>
-            `;
-            wrapper.scrollTop = 0; // reset scroll saat slide baru
-            updateIndicator();
-            wrapper.focus();
-        }
+            function renderSlide(index) {
+                const data = slidesData[index];
+                wrapper.innerHTML = `
+                  <div class="workspace-slide active" tabindex="0">
+                    <div class="workspace-content">
+                      <h4>${data.title}</h4>
+                      <p>${data.desc}</p>
+                    </div>
+                    <div class="workspace-img">
+                      <img src="${data.img}" alt="${data.title}" class="workspace-img-hover">
+                    </div>
+                  </div>
+                `;
+                wrapper.scrollTop = 0; // reset scroll saat slide baru
+                updateIndicator();
+                wrapper.focus();
+            }
 
-
-        renderSlide(currentIndex);
-        createIndicator();
-
-        // Fungsi throttle untuk delay antar scroll ganti slide
-        function throttleScroll() {
-            isThrottled = true;
-            setTimeout(() => {
-                isThrottled = false;
-            }, 800);
-        }
-
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % slidesData.length;
             renderSlide(currentIndex);
-        }, 5000); // auto change every 6s
+            createIndicator();
+
+            // Fungsi throttle untuk delay antar scroll ganti slide
+            function throttleScroll() {
+                isThrottled = true;
+                setTimeout(() => {
+                    isThrottled = false;
+                }, 800);
+            }
+
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % slidesData.length;
+                renderSlide(currentIndex);
+            }, 5000); // auto change every 6s
+        }
     </script>
 </body>
 

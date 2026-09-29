@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\MidtransWebhookController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProductAdminController;
@@ -29,6 +30,8 @@ Route::post('/midtrans/notifications', MidtransWebhookController::class)->name('
 
 Route::middleware('auth')->group(function () {
     Route::get('/account-settings', [App\Http\Controllers\AccountSettingsController::class, 'index'])->name('profile.edit');
+    Route::post('/account-settings', [App\Http\Controllers\AccountSettingsController::class, 'update'])->name('profile.update');
+    Route::get('/my-collection', [CollectionController::class, 'index'])->name('collection.index');
 
     Route::get('/purchases/{product}/{assetKey?}', [PurchaseController::class, 'start'])
         ->where('assetKey', 'primary|secondary')

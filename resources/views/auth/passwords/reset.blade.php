@@ -82,7 +82,7 @@
     }
 
     .btn-primary:hover {
-      background-color: #10b1e9;
+      background-color: #11a6d8ff;
       transform: scale(1.03);
     }
 
